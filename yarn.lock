@@ -4193,10 +4193,10 @@ keccak@^3.0.0, keccak@^3.0.2:
     node-gyp-build "^4.2.0"
     readable-stream "^3.6.0"
 
-key-encoder@^2.1.0-beta.0:
-  version "2.1.0-beta.0"
-  resolved "https://registry.yarnpkg.com/key-encoder/-/key-encoder-2.1.0-beta.0.tgz#324ce6bc175f218e23b599d59e70a457de5b207a"
-  integrity sha512-aSkevungUOFW3opGE05v89ka2DJtGyejTir8bu2r5sl0Gug/vDaiUoCIrUDX8SklZ6L5w03JMoKvfhc+nJ280A==
+key-encoder@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/key-encoder/-/key-encoder-2.0.3.tgz#77073bb48ff1fe2173bb2088b83b91152c8fa4ba"
+  integrity sha512-fgBtpAGIr/Fy5/+ZLQZIPPhsZEcbSlYu/Wu96tNDFNSjSACw5lEIOFeaVdQ/iwrb8oxjlWi6wmWdH76hV6GZjg==
   dependencies:
     "@types/elliptic" "^6.4.9"
     asn1.js "^5.0.1"

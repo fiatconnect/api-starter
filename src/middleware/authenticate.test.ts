@@ -20,6 +20,7 @@ import { getMockResponse } from '../mocks/express-response'
 import request from 'supertest'
 import { errorToStatusCode } from './error'
 
+
 describe('Authentication', () => {
   const privateKeyPem = `-----BEGIN EC PRIVATE KEY-----
 MHQCAQEEIO0uPYAsRectdUcDbE670yLjK8VOVOY71Fa82tq0Q0akoAcGBSuBBAAK
