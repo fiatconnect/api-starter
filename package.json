@@ -1,0 +1,56 @@
+{
+  "name": "fiatconnect-api",
+  "version": "0.0.1",
+  "description": "An example implementation of a FiatConnect-compliant API",
+  "main": "index.js",
+  "engines": {
+    "node": "^16"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --loglevel error --write \"./src/**/*.ts\"",
+    "lint": "eslint --ext=.tsx,.ts --fix src/",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "prettier": "@valora/prettier-config",
+  "license": "MIT",
+  "dependencies": {
+    "@celo/utils": "^1.5.2",
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.21",
+    "@types/yargs": "^17.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@valora/eslint-config-typescript": "^0.0.1",
+    "@valora/prettier-config": "^0.0.1",
+    "ajv": "^8.10.0",
+    "dotenv": "^16.0.0",
+    "eslint": "^8.9.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-react-native": "^4.0.0",
+    "ethers": "^5.5.4",
+    "express": "^4.17.3",
+    "express-jwt": "^6.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "key-encoder": "^2.0.3",
+    "prettier": "^2.5.1",
+    "typescript": "^4.3.5",
+    "yargs": "^17.3.1"
+  },
+  "devDependencies": {
+    "@types/express-jwt": "^6.0.4",
+    "@types/jest": "^27.4.1",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node-fetch": "2",
+    "@types/supertest": "^2.0.11",
+    "jest": "^27.5.1",
+    "node-fetch": "2",
+    "supertest": "^6.2.2",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.5.0",
+    "@fiatconnect/fiatconnect-types": "^1.0.0"
+  }
+}
