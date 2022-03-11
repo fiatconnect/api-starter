@@ -14,7 +14,7 @@ const keyEncoder = new KeyEncoder('secp256k1')
  */
 async function main() {
   const privateKey = '0x9999999999999999999999999999999999999999999999999999999999999999'
-  const privateKeyPem = keyEncoder.encodePrivate(trimLeading0x(privateKey), 'raw', 'pem')
+  const privateKeyPem = keyEncoder.encodePrivate(trimLeading0x(privateKey), 'raw', 'pem', 'pkcs8')
 
   const publicKey = new ethers.utils.SigningKey(privateKey).compressedPublicKey
 
@@ -25,13 +25,18 @@ async function main() {
     expiresIn: '5m'
   })
 
+  console.log(token)
+  console.log(privateKeyPem)
+  const publicKeyPem = keyEncoder.encodePublic(trimLeading0x(publicKey), 'raw', 'pem')
+  console.log(publicKeyPem)
   const response = await fetch('http://localhost:8080/transfer/test/status', {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   })
-  const data = await response.json()
+  const data = await response.text()
   console.log(data)
+
 }
 
 main()

@@ -3,7 +3,7 @@ import { ValidationError } from '../types'
 
 import { quoteRequestQuerySchema } from './quote-request-query'
 import { kycRequestParamsSchema } from './kyc-request-params'
-import { mockNameAndAddressKycSchema } from './mock-name-and-address-kyc'
+import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
 import { addFiatAccountRequestParamsSchema } from './add-fiat-account-request-params'
 import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-request-params'
 import { mockCheckingAccountSchema } from './mock-checking-account'
@@ -14,7 +14,7 @@ const ajv = new Ajv({
   schemas: [
     quoteRequestQuerySchema,
     kycRequestParamsSchema,
-    mockNameAndAddressKycSchema,
+    personalDataAndDocumentsKycSchema,
     addFiatAccountRequestParamsSchema,
     deleteFiatAccountRequestParamsSchema,
     mockCheckingAccountSchema,
