@@ -41,7 +41,7 @@
     "yargs": "^17.3.1"
   },
   "devDependencies": {
-    "@fiatconnect/fiatconnect-types": "2.0.0",
+    "@fiatconnect/fiatconnect-types": "^2.0.0",
     "@types/express-jwt": "^6.0.4",
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
