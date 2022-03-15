@@ -4,7 +4,7 @@ import { validateSchema } from '../schema/'
 import {
   KycRequestParams,
   KycSchema,
-  MockNameAndAddressKyc,
+  PersonalDataAndDocumentsKyc,
   NotImplementedError,
   JwtAuthorizationMiddleware,
 } from '../types'
@@ -42,10 +42,10 @@ export function kycRouter({
       ) => {
         // Delegate to type-specific handlers after validation provides type guards
         switch (req.params.kycSchema) {
-          case KycSchema.MockNameAndAddress:
-            validateSchema<MockNameAndAddressKyc>(
+          case KycSchema.PersonalDataAndDocuments:
+            validateSchema<PersonalDataAndDocumentsKyc>(
               req.body,
-              'MockNameAndAddressKycSchema',
+              'PersonalDataAndDocumentsKycSchema',
             )
           default:
             throw new Error(`Non-existent KYC schema "${req.params.kycSchema}"`)
