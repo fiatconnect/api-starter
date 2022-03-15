@@ -36,8 +36,10 @@ You can run unit tests with jest as follows:
 yarn test
 ```
 #### Integration tests
-Integration tests are not included with this starter project. However, an example of how to create a JWT is included 
+Integration tests are not included with this starter project. However, an example of how to create a JWT is included
 in `scripts/example-request.ts`.
+
+Additionally, an example script for monitoring contract events using websockets is included in `scripts/example-websockets.ts`
 
 ## Structure & Schema Validation
 
