@@ -6,9 +6,10 @@ import {
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
   MockCheckingAccount,
-  NotImplementedError,
   JwtAuthorizationMiddleware,
 } from '../types'
+import { providerResponses } from '../mocks/providerResponses'
+import extractProvider from '../middleware/extractProvider'
 
 export function accountsRouter({
   jwtAuthMiddleware,
@@ -31,6 +32,7 @@ export function accountsRouter({
       req.params,
       'AddFiatAccountRequestParamsSchema',
     )
+
     next()
   }
 
@@ -49,6 +51,7 @@ export function accountsRouter({
   router.post(
     '/:fiatAccountSchema',
     addFiatAccountRequestParamsValidator,
+    extractProvider,
     asyncRoute(
       async (
         req: express.Request<AddFiatAccountRequestParams>,
@@ -61,37 +64,39 @@ export function accountsRouter({
               req.body,
               'MockCheckingAccountSchema',
             )
+
+            break
           default:
             throw new Error(
               `Non-existent fiat account schema "${req.params.fiatAccountSchema}"`,
             )
         }
 
-        throw new NotImplementedError(
-          'POST /accounts/:fiatAccountSchema not implemented',
-        )
+        const providerResponse = providerResponses[_res.locals.provider]
+        _res.status(200).json(providerResponse.postAccountSchema)
       },
     ),
   )
 
   router.get(
     '/',
+    extractProvider,
     asyncRoute(async (_req: express.Request, _res: express.Response) => {
-      throw new NotImplementedError('GET /accounts not implemented')
+      const providerResponse = providerResponses[_res.locals.provider]
+      _res.status(200).json(providerResponse.getAccounts)
     }),
   )
 
   router.delete(
     '/:fiatAccountId',
     deleteFiatAccountRequestParamsValidator,
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<DeleteFiatAccountRequestParams>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError(
-          'DELETE /accounts/:fiatAccountId not implemented',
-        )
+        _res.status(200).send()
       },
     ),
   )

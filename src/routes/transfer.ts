@@ -4,9 +4,10 @@ import { validateSchema } from '../schema/'
 import {
   TransferRequestBody,
   TransferStatusRequestParams,
-  NotImplementedError,
   JwtAuthorizationMiddleware,
 } from '../types'
+import extractProvider from '../middleware/extractProvider'
+import { providerResponses } from '../mocks/providerResponses'
 
 export function transferRouter({
   jwtAuthMiddleware,
@@ -46,12 +47,15 @@ export function transferRouter({
     jwtAuthMiddleware.expirationRequired,
     clientAuthMiddleware,
     transferRequestBodyValidator,
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<{}, {}, TransferRequestBody>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('POST /transfer/in not implemented')
+        const providerResponse = providerResponses[_res.locals.provider]
+
+        _res.status(200).json(providerResponse.postTransfer)
       },
     ),
   )
@@ -61,12 +65,15 @@ export function transferRouter({
     jwtAuthMiddleware.expirationRequired,
     clientAuthMiddleware,
     transferRequestBodyValidator,
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<{}, {}, TransferRequestBody>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('POST /transfer/out not implemented')
+        const providerResponse = providerResponses[_res.locals.provider]
+
+        _res.status(200).json(providerResponse.postTransfer)
       },
     ),
   )
@@ -76,14 +83,15 @@ export function transferRouter({
     jwtAuthMiddleware.expirationOptional,
     clientAuthMiddleware,
     transferStatusRequestParamsValidator,
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<TransferStatusRequestParams>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError(
-          'GET /transfer/:transferId/status not implemented',
-        )
+        const providerResponse = providerResponses[_res.locals.provider]
+
+        _res.status(200).json(providerResponse.getTransferStatus)
       },
     ),
   )

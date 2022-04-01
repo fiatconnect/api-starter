@@ -17,14 +17,20 @@ export function initApp({
 
   app.use(express.json())
 
-  app.use('/quote', quoteRouter({ jwtAuthMiddleware, clientAuthMiddleware }))
-  app.use('/kyc', kycRouter({ jwtAuthMiddleware, clientAuthMiddleware }))
   app.use(
-    '/accounts',
+    '/:providerName?/quote',
+    quoteRouter({ jwtAuthMiddleware, clientAuthMiddleware }),
+  )
+  app.use(
+    '/:providerName?/kyc',
+    kycRouter({ jwtAuthMiddleware, clientAuthMiddleware }),
+  )
+  app.use(
+    '/:providerName?/accounts',
     accountsRouter({ jwtAuthMiddleware, clientAuthMiddleware }),
   )
   app.use(
-    '/transfer',
+    '/:providerName?/transfer',
     transferRouter({ jwtAuthMiddleware, clientAuthMiddleware }),
   )
 

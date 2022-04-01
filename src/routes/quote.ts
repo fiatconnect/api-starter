@@ -1,11 +1,9 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
 import { validateSchema } from '../schema/'
-import {
-  QuoteRequestQuery,
-  NotImplementedError,
-  JwtAuthorizationMiddleware,
-} from '../types'
+import { QuoteRequestQuery, JwtAuthorizationMiddleware } from '../types'
+import { providerResponses } from '../mocks/providerResponses/index'
+import extractProvider from '../middleware/extractProvider'
 
 export function quoteRouter({
   jwtAuthMiddleware,
@@ -29,30 +27,37 @@ export function quoteRouter({
         req.query,
         'QuoteRequestQuerySchema',
       )
+
       next()
     },
   )
 
   router.get(
     '/in',
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<{}, {}, {}, QuoteRequestQuery>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('GET /quote/in not implemented')
+        const providerResponse = providerResponses[_res.locals.provider]
+
+        _res.status(200).json(providerResponse.quoteIn)
       },
     ),
   )
 
   router.get(
     '/out',
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<{}, {}, {}, QuoteRequestQuery>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('GET /quote/out not implemented')
+        const providerResponse = providerResponses[_res.locals.provider]
+
+        _res.status(200).json(providerResponse.quoteOut)
       },
     ),
   )

@@ -5,9 +5,10 @@ import {
   KycRequestParams,
   KycSchema,
   PersonalDataAndDocumentsKyc,
-  NotImplementedError,
   JwtAuthorizationMiddleware,
 } from '../types'
+import { providerResponses } from '../mocks/providerResponses'
+import extractProvider from '../middleware/extractProvider'
 
 export function kycRouter({
   jwtAuthMiddleware,
@@ -27,6 +28,7 @@ export function kycRouter({
       req.params,
       'KycRequestParamsSchema',
     )
+
     next()
   }
 
@@ -35,6 +37,7 @@ export function kycRouter({
     jwtAuthMiddleware.expirationRequired,
     clientAuthMiddleware,
     kycSchemaRequestParamsValidator,
+    extractProvider,
     asyncRoute(
       async (
         req: express.Request<KycRequestParams>,
@@ -47,11 +50,14 @@ export function kycRouter({
               req.body,
               'PersonalDataAndDocumentsKycSchema',
             )
+
+            break
           default:
             throw new Error(`Non-existent KYC schema "${req.params.kycSchema}"`)
         }
 
-        throw new NotImplementedError('POST /kyc/:kycSchema not implemented')
+        const providerResponse = providerResponses[_res.locals.provider]
+        _res.status(200).json(providerResponse.postKycData)
       },
     ),
   )
@@ -61,14 +67,15 @@ export function kycRouter({
     jwtAuthMiddleware.expirationOptional,
     clientAuthMiddleware,
     kycSchemaRequestParamsValidator,
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<KycRequestParams>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError(
-          'GET /kyc/:kycSchema/status not implemented',
-        )
+        const providerResponse = providerResponses[_res.locals.provider]
+
+        _res.status(200).json(providerResponse.getKycStatus)
       },
     ),
   )
@@ -78,12 +85,13 @@ export function kycRouter({
     jwtAuthMiddleware.expirationRequired,
     clientAuthMiddleware,
     kycSchemaRequestParamsValidator,
+    extractProvider,
     asyncRoute(
       async (
         _req: express.Request<KycRequestParams>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('DELETE /kyc/:kycSchema not implemented')
+        _res.status(200).send()
       },
     ),
   )
