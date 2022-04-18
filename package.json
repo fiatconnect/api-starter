@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@celo/utils": "^1.5.2",
+    "@fiatconnect/fiatconnect-types": "^2.0.0",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
     "@types/yargs": "^17.0.8",
@@ -41,7 +42,6 @@
     "yargs": "^17.3.1"
   },
   "devDependencies": {
-    "@fiatconnect/fiatconnect-types": "^2.0.0",
     "@types/express-jwt": "^6.0.4",
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
