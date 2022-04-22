@@ -71,6 +71,7 @@ export interface JwtAuthorizationMiddleware {
   expirationOptional: express.RequestHandler[]
 }
 
+// TODO(satish): move to fiatconnect-types
 export interface AuthRequestBody {
   message: string
   signature: string
