@@ -219,3 +219,17 @@ export function getClientAuthMiddleware(
       )
   }
 }
+
+export function siweAuthMiddleware(
+  req: express.Request,
+  _res: express.Response,
+  next: express.NextFunction,
+) {
+  if (!req.session.siwe) {
+    throw new UnauthorizedError('No session found')
+  }
+  if (new Date() > new Date(req.session.siwe.expirationTime!)) {
+    throw new UnauthorizedError('Session expired')
+  }
+  next()
+}

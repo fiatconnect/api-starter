@@ -6,17 +6,18 @@ import {
   KycSchema,
   PersonalDataAndDocumentsKyc,
   NotImplementedError,
-  JwtAuthorizationMiddleware,
 } from '../types'
+import { siweAuthMiddleware } from '../middleware/authenticate'
 
 export function kycRouter({
-  jwtAuthMiddleware,
   clientAuthMiddleware,
 }: {
-  jwtAuthMiddleware: JwtAuthorizationMiddleware
   clientAuthMiddleware: express.RequestHandler[]
 }): express.Router {
   const router = express.Router()
+
+  router.use(siweAuthMiddleware)
+  router.use(clientAuthMiddleware)
 
   const kycSchemaRequestParamsValidator = (
     req: express.Request,
@@ -32,8 +33,6 @@ export function kycRouter({
 
   router.post(
     '/:kycSchema',
-    jwtAuthMiddleware.expirationRequired,
-    clientAuthMiddleware,
     kycSchemaRequestParamsValidator,
     asyncRoute(
       async (
@@ -58,8 +57,6 @@ export function kycRouter({
 
   router.get(
     '/:kycSchema/status',
-    jwtAuthMiddleware.expirationOptional,
-    clientAuthMiddleware,
     kycSchemaRequestParamsValidator,
     asyncRoute(
       async (
@@ -75,8 +72,6 @@ export function kycRouter({
 
   router.delete(
     '/:kycSchema',
-    jwtAuthMiddleware.expirationRequired,
-    clientAuthMiddleware,
     kycSchemaRequestParamsValidator,
     asyncRoute(
       async (

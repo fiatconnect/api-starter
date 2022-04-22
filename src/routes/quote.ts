@@ -1,22 +1,15 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
 import { validateSchema } from '../schema/'
-import {
-  QuoteRequestQuery,
-  NotImplementedError,
-  JwtAuthorizationMiddleware,
-} from '../types'
+import { QuoteRequestQuery, NotImplementedError } from '../types'
 
 export function quoteRouter({
-  jwtAuthMiddleware,
   clientAuthMiddleware,
 }: {
-  jwtAuthMiddleware: JwtAuthorizationMiddleware
   clientAuthMiddleware: express.RequestHandler[]
 }): express.Router {
   const router = express.Router()
 
-  router.use(jwtAuthMiddleware.expirationOptional)
   router.use(clientAuthMiddleware)
 
   router.use(

@@ -1,18 +1,13 @@
 import { loadConfig } from './config'
-import {
-  getJwtAuthMiddleware,
-  getClientAuthMiddleware,
-} from './middleware/authenticate'
+import { getClientAuthMiddleware } from './middleware/authenticate'
 import { initApp } from './app'
 
 async function main() {
   const { port, authConfig } = loadConfig()
 
-  const jwtAuthMiddleware = getJwtAuthMiddleware(authConfig)
   const clientAuthMiddleware = getClientAuthMiddleware(authConfig)
 
   const app = initApp({
-    jwtAuthMiddleware,
     clientAuthMiddleware,
   })
 

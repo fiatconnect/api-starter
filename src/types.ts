@@ -71,6 +71,11 @@ export interface JwtAuthorizationMiddleware {
   expirationOptional: express.RequestHandler[]
 }
 
+export interface AuthRequestBody {
+  message: string
+  signature: string
+}
+
 /*
  * API error types
  */
@@ -88,3 +93,5 @@ export class NotImplementedError extends Error {}
 export class InvalidAuthParamsError extends Error {}
 
 export class UnauthorizedError extends Error {}
+
+export class InvalidSiweParamsError extends Error {}

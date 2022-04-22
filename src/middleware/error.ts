@@ -3,6 +3,7 @@ import {
   ValidationError,
   InvalidAuthParamsError,
   UnauthorizedError,
+  InvalidSiweParamsError,
 } from '../types'
 import { UnauthorizedError as JwtUnauthorizedError } from 'express-jwt'
 
@@ -19,7 +20,8 @@ export const errorToStatusCode = (
     })
   } else if (
     error instanceof UnauthorizedError ||
-    error instanceof JwtUnauthorizedError
+    error instanceof JwtUnauthorizedError ||
+    error instanceof InvalidSiweParamsError
   ) {
     res.status(401).json({
       error: error.message,
