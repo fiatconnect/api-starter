@@ -16,17 +16,30 @@ function validateNonce(_nonce: string) {
   throw new NotImplementedError('Nonce validation not implemented')
 }
 
-function validateExpirationTime(issuedAt: string, expirationTime?: string) {
+function validateIssuedAtAndExpirationTime(
+  issuedAt: string,
+  expirationTime?: string,
+) {
   if (!expirationTime) {
-    throw new InvalidSiweParamsError('Missing expiration time')
+    throw new InvalidSiweParamsError('Missing ExpirationTime')
   }
   const issuedAtDate = new Date(issuedAt)
   const expirationDate = new Date(expirationTime)
+  const now = new Date()
+  if (issuedAtDate > now) {
+    throw new InvalidSiweParamsError('IssuedAt date is in the future')
+  }
+  if (expirationDate < now) {
+    throw new InvalidSiweParamsError('ExpirationTime is in the past')
+  }
+  if (expirationDate < issuedAtDate) {
+    throw new InvalidSiweParamsError('ExpirationTime is before IssuedAt')
+  }
   if (
     expirationDate.getTime() - issuedAtDate.getTime() >
     MAX_EXPIRATION_TIME_MS
   ) {
-    throw new InvalidSiweParamsError('Expiration time too long')
+    throw new InvalidSiweParamsError('ExpirationTime too long')
   }
 }
 
@@ -73,7 +86,10 @@ export function authRouter(): express.Router {
           throw new InvalidSiweParamsError('Invalid siwe message')
         }
 
-        validateExpirationTime(siweFields.issuedAt, siweFields.expirationTime)
+        validateIssuedAtAndExpirationTime(
+          siweFields.issuedAt,
+          siweFields.expirationTime,
+        )
         validateNonce(siweFields.nonce)
         validateDomainAndUri(siweFields.domain, siweFields.uri)
 

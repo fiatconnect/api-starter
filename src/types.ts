@@ -37,6 +37,7 @@ export {
 export interface Config {
   authConfig: AuthenticationConfig
   port: number
+  sessionSecret: string
 }
 
 export enum JwtAuthStrategy {

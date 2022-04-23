@@ -4,6 +4,7 @@ import {
   ClientAuthStrategy,
   AuthenticationConfig,
   Network,
+  NotImplementedError,
 } from './types'
 import * as dotenv from 'dotenv'
 import yargs from 'yargs'
@@ -53,10 +54,17 @@ export function loadConfig(): Config {
       type: 'number',
       default: DEFAULT_PORT,
     })
+    .option('session-secret', {
+      description: 'The secret for signing the session',
+      example: 'my-session-secret',
+      type: 'string',
+      demandOption: true,
+    })
     .parseSync()
 
   return {
     authConfig: authConfigOptions[argv['auth-config-option']],
     port: argv.port,
+    sessionSecret: argv.sessionSecret,
   }
 }

@@ -16,13 +16,13 @@ async function main() {
   const accountAddress = ethers.utils.computeAddress(ensureLeading0x(publicKey))
   const wallet = new ethers.Wallet(privateKey)
 
-  const expirationDate = new Date(Date.now() - 14400000)
+  const expirationDate = new Date(Date.now() + 14400000)
 
   const siweMessage = new SiweMessage({
-    domain: 'foo.com',
+    domain: 'example-provider.com',
     address: accountAddress,
     statement: 'Sign in with Ethereum',
-    uri: 'http://foo.com',
+    uri: 'https://example-provider.com',
     version: '1',
     chainId: 42220,
     nonce: '12345678',

@@ -3,12 +3,13 @@ import { getClientAuthMiddleware } from './middleware/authenticate'
 import { initApp } from './app'
 
 async function main() {
-  const { port, authConfig } = loadConfig()
+  const { port, authConfig, sessionSecret } = loadConfig()
 
   const clientAuthMiddleware = getClientAuthMiddleware(authConfig)
 
   const app = initApp({
     clientAuthMiddleware,
+    sessionSecret,
   })
 
   app.listen(port, () => {

@@ -6,20 +6,19 @@ import { accountsRouter } from './routes/accounts'
 import { transferRouter } from './routes/transfer'
 import { errorToStatusCode } from './middleware/error'
 import { authRouter } from './routes/auth'
+import { NotImplementedError } from './types'
 
-// this is typically the name of the provider
-const SESSION_NAME = 'api-starter'
-
-// a secret for signing the session token, typically loaded via env vars and not
-// stored in the codebase. See
-// https://www.npmjs.com/package/express-session-expire-timeout#secret for more
-// details.
-const SESSION_SECRET = process.env.SESSION_SECRET || 'api-starter-secret'
+function getSessionName(): string {
+  // must return a unique name for the provider. E.g., return 'my-awesome-provider'
+  throw new NotImplementedError('getSessionName not implemented')
+}
 
 export function initApp({
   clientAuthMiddleware,
+  sessionSecret,
 }: {
   clientAuthMiddleware: express.RequestHandler[]
+  sessionSecret: string
 }): express.Application {
   const app = express()
 
@@ -27,11 +26,11 @@ export function initApp({
   app.use(
     // https://www.npmjs.com/package/express-session-expire-timeout#sessionoptions
     Session({
-      name: SESSION_NAME,
-      secret: SESSION_SECRET,
+      name: getSessionName(),
+      secret: sessionSecret,
       resave: true,
       saveUninitialized: true,
-      cookie: { secure: false, sameSite: true },
+      cookie: { secure: true, sameSite: true },
     }),
   )
 
