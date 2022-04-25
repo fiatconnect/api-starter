@@ -40,6 +40,7 @@ CljdgjnhGVc=
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     clientAuthStrategy: ClientAuthStrategy.Optional,
     network: Network.Alfajores,
+    chainId: 44787,
   }
   describe('Auth Helper Functions', () => {
     describe('verifyJwtExpirationMiddleware', () => {

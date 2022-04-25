@@ -10,7 +10,6 @@ import { asyncRoute } from './async-route'
 
 const MAX_EXPIRATION_TIME_MS = 4 * 60 * 60 * 1000 // 4 hours
 const VERSION = '1'
-const CHAIN_ID = 42220
 
 function validateNonce(_nonce: string) {
   throw new NotImplementedError('Nonce validation not implemented')
@@ -47,7 +46,7 @@ function validateDomainAndUri(_domain: string, _uri: string) {
   throw new NotImplementedError('Domain and URI validation not implemented')
 }
 
-export function authRouter(): express.Router {
+export function authRouter({ chainId }: { chainId: number }): express.Router {
   const router = express.Router()
 
   const authRequestBodyValidator = (
@@ -97,7 +96,7 @@ export function authRouter(): express.Router {
           throw new InvalidSiweParamsError('Invalid version')
         }
 
-        if (siweFields.chainId !== CHAIN_ID) {
+        if (siweFields.chainId !== chainId) {
           throw new InvalidSiweParamsError('Invalid chain ID')
         }
 

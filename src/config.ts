@@ -4,7 +4,6 @@ import {
   ClientAuthStrategy,
   AuthenticationConfig,
   Network,
-  NotImplementedError,
 } from './types'
 import * as dotenv from 'dotenv'
 import yargs from 'yargs'
@@ -17,18 +16,21 @@ export const authConfigOptions: Record<string, AuthenticationConfig> = {
   test: {
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     network: Network.Alfajores,
+    chainId: 44787,
     jwtAuthStrategy: JwtAuthStrategy.DecodeOnly,
     clientAuthStrategy: ClientAuthStrategy.Optional,
   },
   alfajores: {
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     network: Network.Alfajores,
+    chainId: 44787,
     jwtAuthStrategy: JwtAuthStrategy.SignatureAndAddress,
     clientAuthStrategy: ClientAuthStrategy.Optional,
   },
   mainnet: {
     web3ProviderUrl: MAINNET_FORNO_URL,
     network: Network.Mainnet,
+    chainId: 42220,
     jwtAuthStrategy: JwtAuthStrategy.SignatureAndAddress,
     clientAuthStrategy: ClientAuthStrategy.Required,
   },

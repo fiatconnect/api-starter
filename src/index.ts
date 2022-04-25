@@ -10,6 +10,7 @@ async function main() {
   const app = initApp({
     clientAuthMiddleware,
     sessionSecret,
+    chainId: authConfig.chainId,
   })
 
   app.listen(port, () => {

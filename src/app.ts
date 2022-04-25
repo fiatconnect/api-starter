@@ -16,9 +16,11 @@ function getSessionName(): string {
 export function initApp({
   clientAuthMiddleware,
   sessionSecret,
+  chainId,
 }: {
   clientAuthMiddleware: express.RequestHandler[]
   sessionSecret: string
+  chainId: number
 }): express.Application {
   const app = express()
 
@@ -34,7 +36,7 @@ export function initApp({
     }),
   )
 
-  app.use('/auth', authRouter())
+  app.use('/auth', authRouter({ chainId }))
 
   app.use('/quote', quoteRouter({ clientAuthMiddleware }))
   app.use('/kyc', kycRouter({ clientAuthMiddleware }))

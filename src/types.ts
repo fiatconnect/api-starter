@@ -55,6 +55,7 @@ export interface AuthenticationConfig {
   clientAuthStrategy: ClientAuthStrategy
   network: Network
   web3ProviderUrl: string
+  chainId: number
 }
 
 export enum Network {
