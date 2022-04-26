@@ -58,6 +58,7 @@ export function accountsRouter({
         switch (req.params.fiatAccountSchema) {
           case FiatAccountSchema.AccountNumber:
             validateSchema<AccountNumber>(req.body, 'AccountNumberSchema')
+            break
           default:
             throw new Error(
               `Non-existent fiat account schema "${req.params.fiatAccountSchema}"`,
