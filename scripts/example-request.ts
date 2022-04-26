@@ -16,7 +16,7 @@ async function main() {
   const accountAddress = ethers.utils.computeAddress(ensureLeading0x(publicKey))
   const wallet = new ethers.Wallet(privateKey)
 
-  const expirationDate = new Date(Date.now() + 14400000)
+  const expirationDate = new Date(Date.now() + 14400000)  // 4 hours from now
 
   const siweMessage = new SiweMessage({
     domain: 'example-provider.com',
