@@ -9,9 +9,10 @@ import {
   AddFiatAccountRequestParams,
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
-  MockCheckingAccount,
+  AccountNumber,
   FiatType,
   CryptoType,
+  FiatAccountType,
 } from '@fiatconnect/fiatconnect-types'
 import express from 'express'
 
@@ -25,8 +26,9 @@ export {
   AddFiatAccountRequestParams,
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
-  MockCheckingAccount,
+  AccountNumber,
   FiatType,
+  FiatAccountType,
   CryptoType,
 }
 

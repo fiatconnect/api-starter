@@ -1,32 +1,32 @@
 import { JSONSchemaType } from 'ajv'
-import { MockCheckingAccount, FiatType } from '../types'
+import { AccountNumber, FiatAccountType } from '../types'
 
-export const mockCheckingAccountSchema: JSONSchemaType<MockCheckingAccount> = {
-  $id: 'MockCheckingAccountSchema',
+export const accountNumberSchema: JSONSchemaType<AccountNumber> = {
+  $id: 'AccountNumberSchema',
   type: 'object',
   properties: {
-    bankName: {
+    institutionName: {
       type: 'string',
     },
     accountName: {
       type: 'string',
     },
-    fiatType: {
+    fiatAccountType: {
       type: 'string',
-      enum: Object.values(FiatType),
+      enum: [FiatAccountType.BankAccount],
     },
     accountNumber: {
       type: 'string',
     },
-    routingNumber: {
+    country: {
       type: 'string',
     },
   },
   required: [
-    'bankName',
+    'institutionName',
     'accountName',
-    'fiatType',
     'accountNumber',
-    'routingNumber',
+    'country',
+    'fiatAccountType',
   ],
 }

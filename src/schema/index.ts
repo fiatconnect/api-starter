@@ -6,7 +6,7 @@ import { kycRequestParamsSchema } from './kyc-request-params'
 import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
 import { addFiatAccountRequestParamsSchema } from './add-fiat-account-request-params'
 import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-request-params'
-import { mockCheckingAccountSchema } from './mock-checking-account'
+import { accountNumberSchema } from './account-number'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
 import { authRequestBodySchema } from './auth-request-body'
@@ -18,7 +18,7 @@ const ajv = new Ajv({
     personalDataAndDocumentsKycSchema,
     addFiatAccountRequestParamsSchema,
     deleteFiatAccountRequestParamsSchema,
-    mockCheckingAccountSchema,
+    accountNumberSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
     authRequestBodySchema,

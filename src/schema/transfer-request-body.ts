@@ -19,6 +19,9 @@ export const transferRequestBodySchema: JSONSchemaType<TransferRequestBody> = {
     fiatAccountId: {
       type: 'string',
     },
+    quoteId: {
+      type: 'string',
+    },
   },
-  required: ['fiatType', 'cryptoType', 'amount', 'fiatAccountId'],
+  required: ['fiatType', 'cryptoType', 'amount', 'fiatAccountId', 'quoteId'],
 }
