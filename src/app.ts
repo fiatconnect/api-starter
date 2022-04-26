@@ -9,7 +9,7 @@ import { authRouter } from './routes/auth'
 import { NotImplementedError } from './types'
 
 function getSessionName(): string {
-  // must return a unique name for the provider. E.g., return 'my-awesome-provider'
+  // must return a name for the session cookie, typically the provider name
   throw new NotImplementedError('getSessionName not implemented')
 }
 

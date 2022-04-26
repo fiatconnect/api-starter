@@ -1,9 +1,9 @@
-import { FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import express from 'express'
 import { ErrorTypes, SiweMessage } from 'siwe'
 import { validateSchema } from '../schema'
 import {
   AuthRequestBody,
+  FiatConnectError,
   InvalidSiweParamsError,
   NotImplementedError,
 } from '../types'
@@ -13,6 +13,10 @@ const MAX_EXPIRATION_TIME_MS = 4 * 60 * 60 * 1000 // 4 hours
 const VERSION = '1'
 
 function validateNonce(_nonce: string) {
+  // must validate that the nonce hasn't already been used. Could typically be
+  // done by saving nonces in a store with TTL (like redis) and check if the
+  // nonce is already used. If a nonce is already used, must throw a NonceInUse
+  // error. e.g. `throw new InvalidSiweParamsError(FiatConnectError.NonceInUser)`
   throw new NotImplementedError('Nonce validation not implemented')
 }
 
