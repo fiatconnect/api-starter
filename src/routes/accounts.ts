@@ -5,7 +5,7 @@ import {
   AddFiatAccountRequestParams,
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
-  MockCheckingAccount,
+  AccountNumber,
   NotImplementedError,
   JwtAuthorizationMiddleware,
 } from '../types'
@@ -56,11 +56,9 @@ export function accountsRouter({
       ) => {
         // Delegate to type-specific handlers after validation provides type guards
         switch (req.params.fiatAccountSchema) {
-          case FiatAccountSchema.MockCheckingAccount:
-            validateSchema<MockCheckingAccount>(
-              req.body,
-              'MockCheckingAccountSchema',
-            )
+          case FiatAccountSchema.AccountNumber:
+            validateSchema<AccountNumber>(req.body, 'AccountNumberSchema')
+            break
           default:
             throw new Error(
               `Non-existent fiat account schema "${req.params.fiatAccountSchema}"`,
