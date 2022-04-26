@@ -37,7 +37,7 @@ yarn test
 ```
 #### Integration tests
 Integration tests are not included with this starter project. However, an
-example of how to create a Siwe message is included
+example of how to create a [Sign-In with Ethereum](https://login.xyz/) message for authentication is included
 in `scripts/example-request.ts`.
 
 ## Structure & Schema Validation
