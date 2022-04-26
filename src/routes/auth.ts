@@ -1,3 +1,4 @@
+import { FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import express from 'express'
 import { ErrorTypes, SiweMessage } from 'siwe'
 import { validateSchema } from '../schema'
@@ -20,25 +21,34 @@ function validateIssuedAtAndExpirationTime(
   expirationTime?: string,
 ) {
   if (!expirationTime) {
-    throw new InvalidSiweParamsError('Missing ExpirationTime')
+    throw new InvalidSiweParamsError(
+      FiatConnectError.InvalidParameters,
+      'Missing ExpirationTime',
+    )
   }
   const issuedAtDate = new Date(issuedAt)
   const expirationDate = new Date(expirationTime)
   const now = new Date()
   if (issuedAtDate > now) {
-    throw new InvalidSiweParamsError('IssuedAt date is in the future')
+    throw new InvalidSiweParamsError(FiatConnectError.IssuedTooEarly)
   }
   if (expirationDate < now) {
-    throw new InvalidSiweParamsError('ExpirationTime is in the past')
+    throw new InvalidSiweParamsError(
+      FiatConnectError.InvalidParameters,
+      'ExpirationTime is in the past',
+    )
   }
   if (expirationDate < issuedAtDate) {
-    throw new InvalidSiweParamsError('ExpirationTime is before IssuedAt')
+    throw new InvalidSiweParamsError(
+      FiatConnectError.InvalidParameters,
+      'ExpirationTime is before IssuedAt',
+    )
   }
   if (
     expirationDate.getTime() - issuedAtDate.getTime() >
     MAX_EXPIRATION_TIME_MS
   ) {
-    throw new InvalidSiweParamsError('ExpirationTime too long')
+    throw new InvalidSiweParamsError(FiatConnectError.ExpirationTooLong)
   }
 }
 
@@ -77,12 +87,18 @@ export function authRouter({ chainId }: { chainId: number }): express.Router {
         } catch (err) {
           console.warn(err)
           const errMessage = (err as Error).message
-          if (errMessage.startsWith(ErrorTypes.INVALID_SIGNATURE)) {
-            throw new InvalidSiweParamsError('Invalid signature')
-          } else if (errMessage.startsWith(ErrorTypes.EXPIRED_MESSAGE)) {
-            throw new InvalidSiweParamsError('Expired siwe message')
+          if (errMessage.includes(ErrorTypes.INVALID_SIGNATURE)) {
+            throw new InvalidSiweParamsError(FiatConnectError.InvalidSignature)
+          } else if (errMessage.includes(ErrorTypes.EXPIRED_MESSAGE)) {
+            throw new InvalidSiweParamsError(
+              FiatConnectError.InvalidParameters,
+              'Expired message',
+            )
           }
-          throw new InvalidSiweParamsError('Invalid siwe message')
+          throw new InvalidSiweParamsError(
+            FiatConnectError.InvalidParameters,
+            'Invalid siwe message',
+          )
         }
 
         validateIssuedAtAndExpirationTime(
@@ -93,11 +109,17 @@ export function authRouter({ chainId }: { chainId: number }): express.Router {
         validateDomainAndUri(siweFields.domain, siweFields.uri)
 
         if (siweFields.version !== VERSION) {
-          throw new InvalidSiweParamsError('Invalid version')
+          throw new InvalidSiweParamsError(
+            FiatConnectError.InvalidParameters,
+            'Invalid version',
+          )
         }
 
         if (siweFields.chainId !== chainId) {
-          throw new InvalidSiweParamsError('Invalid chain ID')
+          throw new InvalidSiweParamsError(
+            FiatConnectError.InvalidParameters,
+            'Invalid chain ID',
+          )
         }
 
         req.session.siwe = siweFields

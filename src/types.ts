@@ -13,6 +13,8 @@ import {
   FiatType,
   CryptoType,
   FiatAccountType,
+  FiatConnectError,
+  AuthRequestBody,
 } from '@fiatconnect/fiatconnect-types'
 import express from 'express'
 
@@ -30,6 +32,8 @@ export {
   FiatType,
   FiatAccountType,
   CryptoType,
+  FiatConnectError,
+  AuthRequestBody,
 }
 
 /*
@@ -75,12 +79,6 @@ export interface JwtAuthorizationMiddleware {
   expirationOptional: express.RequestHandler[]
 }
 
-// TODO(satish): move to fiatconnect-types
-export interface AuthRequestBody {
-  message: string
-  signature: string
-}
-
 /*
  * API error types
  */
@@ -95,8 +93,20 @@ export class ValidationError extends Error {
 
 export class NotImplementedError extends Error {}
 
-export class InvalidAuthParamsError extends Error {}
+export class UnauthorizedError extends Error {
+  fiatConnectError: FiatConnectError
 
-export class UnauthorizedError extends Error {}
+  constructor(fiatConnectError: FiatConnectError = FiatConnectError.Unauthorized, msg?: string) {
+    super(msg || fiatConnectError)
+    this.fiatConnectError = fiatConnectError
+  }
+}
 
-export class InvalidSiweParamsError extends Error {}
+export class InvalidSiweParamsError extends Error {
+  fiatConnectError: FiatConnectError
+
+  constructor(fiatConnectError: FiatConnectError, msg?: string) {
+    super(msg || fiatConnectError)
+    this.fiatConnectError = fiatConnectError
+  }
+}
