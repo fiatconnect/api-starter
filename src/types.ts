@@ -16,7 +16,6 @@ import {
   FiatConnectError,
   AuthRequestBody,
 } from '@fiatconnect/fiatconnect-types'
-import express from 'express'
 
 export {
   TransferRequestBody,
