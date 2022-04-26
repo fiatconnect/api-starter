@@ -1,10 +1,6 @@
-import {
-  siweAuthMiddleware
-} from './authenticate'
+import { siweAuthMiddleware } from './authenticate'
 import express from 'express'
-import {
-  UnauthorizedError, FiatConnectError
-} from '../types'
+import { UnauthorizedError, FiatConnectError } from '../types'
 import { getMockResponse } from '../mocks/express-response'
 import { SiweMessage } from 'siwe'
 

@@ -1,6 +1,5 @@
 import {
   Config,
-  JwtAuthStrategy,
   ClientAuthStrategy,
   AuthenticationConfig,
   Network,
@@ -17,21 +16,18 @@ export const authConfigOptions: Record<string, AuthenticationConfig> = {
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     network: Network.Alfajores,
     chainId: 44787,
-    jwtAuthStrategy: JwtAuthStrategy.DecodeOnly,
     clientAuthStrategy: ClientAuthStrategy.Optional,
   },
   alfajores: {
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     network: Network.Alfajores,
     chainId: 44787,
-    jwtAuthStrategy: JwtAuthStrategy.SignatureAndAddress,
     clientAuthStrategy: ClientAuthStrategy.Optional,
   },
   mainnet: {
     web3ProviderUrl: MAINNET_FORNO_URL,
     network: Network.Mainnet,
     chainId: 42220,
-    jwtAuthStrategy: JwtAuthStrategy.SignatureAndAddress,
     clientAuthStrategy: ClientAuthStrategy.Required,
   },
 }

@@ -1,10 +1,10 @@
-import { UnauthorizedError } from '../types'
 import express from 'express'
 import {
   AuthenticationConfig,
   ClientAuthStrategy,
+  FiatConnectError,
+  UnauthorizedError,
 } from '../types'
-import { FiatConnectError } from '@fiatconnect/fiatconnect-types'
 
 function doNothingMiddleware(
   _req: express.Request,
@@ -19,7 +19,7 @@ function verifyClientKeyMiddleware(
   _res: express.Response,
   _next: express.NextFunction,
 ) {
-  // could be something like `if (req.user.apiKey !== EXPECTED_API_KEY) throw new UnauthorizedError('Invalid api key'); next();
+  // could be something like `if (req.headers.authorization !== `Bearer ${EXPECTED_API_KEY}`) throw new UnauthorizedError(); next();
   throw new Error('verifyClientKeyMiddleware not implemented')
 }
 
@@ -28,10 +28,10 @@ export function getClientAuthMiddleware(
 ): express.RequestHandler[] {
   switch (authConfig.clientAuthStrategy) {
     case ClientAuthStrategy.Optional:
-      // Checks the JWT for a client key, but does not require one; if present, validates that it's a recognized key.
+      // Checks the authorization header for a client key, but does not require one; if present, validates that it's a recognized key.
       return [doNothingMiddleware]
     case ClientAuthStrategy.Required:
-      // Requires that the JWT contain a recognized client key.
+      // Requires that the authorization header contains a recognized client key.
       return [verifyClientKeyMiddleware]
     default:
       throw new Error(

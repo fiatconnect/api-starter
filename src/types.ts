@@ -46,18 +46,12 @@ export interface Config {
   sessionSecret: string
 }
 
-export enum JwtAuthStrategy {
-  DecodeOnly = 'DecodeOnly',
-  SignatureAndAddress = 'SignatureAndAddress',
-}
-
 export enum ClientAuthStrategy {
   Optional = 'Optional',
   Required = 'Required',
 }
 
 export interface AuthenticationConfig {
-  jwtAuthStrategy: JwtAuthStrategy
   clientAuthStrategy: ClientAuthStrategy
   network: Network
   web3ProviderUrl: string
@@ -67,16 +61,6 @@ export interface AuthenticationConfig {
 export enum Network {
   Alfajores = 'Alfajores',
   Mainnet = 'Mainnet',
-}
-
-export interface AuthorizationTokens {
-  jwt?: string
-  client?: string
-}
-
-export interface JwtAuthorizationMiddleware {
-  expirationRequired: express.RequestHandler[]
-  expirationOptional: express.RequestHandler[]
 }
 
 /*
@@ -96,7 +80,10 @@ export class NotImplementedError extends Error {}
 export class UnauthorizedError extends Error {
   fiatConnectError: FiatConnectError
 
-  constructor(fiatConnectError: FiatConnectError = FiatConnectError.Unauthorized, msg?: string) {
+  constructor(
+    fiatConnectError: FiatConnectError = FiatConnectError.Unauthorized,
+    msg?: string,
+  ) {
     super(msg || fiatConnectError)
     this.fiatConnectError = fiatConnectError
   }
