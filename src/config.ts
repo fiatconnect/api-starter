@@ -12,12 +12,6 @@ export const ALFAJORES_FORNO_URL = 'https://alfajores-forno.celo-testnet.org'
 export const MAINNET_FORNO_URL = 'https://forno.celo.org'
 
 export const authConfigOptions: Record<string, AuthenticationConfig> = {
-  test: {
-    web3ProviderUrl: ALFAJORES_FORNO_URL,
-    network: Network.Alfajores,
-    chainId: 44787,
-    clientAuthStrategy: ClientAuthStrategy.Optional,
-  },
   alfajores: {
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     network: Network.Alfajores,
@@ -54,7 +48,6 @@ export function loadConfig(): Config {
     })
     .option('session-secret', {
       description: 'The secret for signing the session',
-      example: 'my-session-secret',
       type: 'string',
       demandOption: true,
     })
