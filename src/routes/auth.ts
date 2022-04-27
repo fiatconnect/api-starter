@@ -20,6 +20,11 @@ function validateNonce(_nonce: string) {
   throw new NotImplementedError('Nonce validation not implemented')
 }
 
+function markNonceAsUsed(_nonce: string, _expirationTime: Date) {
+  // helper method for storing nonces, which can then be used by the above method.
+  throw new NotImplementedError('markNonceAsUsed not implemented')
+}
+
 function validateIssuedAtAndExpirationTime(
   issuedAt: string,
   expirationTime?: string,
@@ -126,8 +131,11 @@ export function authRouter({ chainId }: { chainId: number }): express.Router {
           )
         }
 
+        const sessionExpirationTime = new Date(siweFields.expirationTime!)
+        markNonceAsUsed(siweFields.nonce, sessionExpirationTime)
+
         req.session.siwe = siweFields
-        req.session.cookie.expires = new Date(siweFields.expirationTime!)
+        req.session.cookie.expires = sessionExpirationTime
         res.status(200).end()
       },
     ),
