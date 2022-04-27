@@ -1,5 +1,5 @@
 import express from 'express'
-import { JwtAuthorizationMiddleware } from './types'
+import {JwtAuthorizationMiddleware, NotImplementedError} from './types'
 import { quoteRouter } from './routes/quote'
 import { kycRouter } from './routes/kyc'
 import { accountsRouter } from './routes/accounts'
@@ -16,6 +16,12 @@ export function initApp({
   const app = express()
 
   app.use(express.json())
+
+  app.get('/clock', (_req, _res) => {
+    // NOTE: you *could* just use res.status(200).send({time: new Date().toISOFormat()}), BUT only if your server is single-node
+    //  (otherwise you need session affinity or some way of guaranteeing consistency of the current time between nodes)
+    throw new NotImplementedError()
+  })
 
   app.use('/quote', quoteRouter({ jwtAuthMiddleware, clientAuthMiddleware }))
   app.use('/kyc', kycRouter({ jwtAuthMiddleware, clientAuthMiddleware }))
