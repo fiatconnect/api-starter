@@ -25,6 +25,13 @@ export function initApp({
   const app = express()
 
   app.use(express.json())
+
+  app.get('/clock', (_req, _res) => {
+    // NOTE: you *could* just use res.status(200).send({time: new Date().toISOFormat()}), BUT only if your server is single-node
+    //  (otherwise you need session affinity or some way of guaranteeing consistency of the current time between nodes)
+    throw new NotImplementedError()
+  })
+
   app.use(
     // https://www.npmjs.com/package/express-session-expire-timeout#sessionoptions
     Session({
