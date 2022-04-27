@@ -1,17 +1,26 @@
 import express from 'express'
-import {JwtAuthorizationMiddleware, NotImplementedError} from './types'
+import Session from 'express-session'
 import { quoteRouter } from './routes/quote'
 import { kycRouter } from './routes/kyc'
 import { accountsRouter } from './routes/accounts'
 import { transferRouter } from './routes/transfer'
 import { errorToStatusCode } from './middleware/error'
+import { authRouter } from './routes/auth'
+import { NotImplementedError } from './types'
+
+function getSessionName(): string {
+  // must return a name for the session cookie, typically the provider name
+  throw new NotImplementedError('getSessionName not implemented')
+}
 
 export function initApp({
-  jwtAuthMiddleware,
   clientAuthMiddleware,
+  sessionSecret,
+  chainId,
 }: {
-  jwtAuthMiddleware: JwtAuthorizationMiddleware
   clientAuthMiddleware: express.RequestHandler[]
+  sessionSecret: string
+  chainId: number
 }): express.Application {
   const app = express()
 
@@ -23,16 +32,23 @@ export function initApp({
     throw new NotImplementedError()
   })
 
-  app.use('/quote', quoteRouter({ jwtAuthMiddleware, clientAuthMiddleware }))
-  app.use('/kyc', kycRouter({ jwtAuthMiddleware, clientAuthMiddleware }))
   app.use(
-    '/accounts',
-    accountsRouter({ jwtAuthMiddleware, clientAuthMiddleware }),
+    // https://www.npmjs.com/package/express-session-expire-timeout#sessionoptions
+    Session({
+      name: getSessionName(),
+      secret: sessionSecret,
+      resave: true,
+      saveUninitialized: true,
+      cookie: { secure: true, sameSite: true },
+    }),
   )
-  app.use(
-    '/transfer',
-    transferRouter({ jwtAuthMiddleware, clientAuthMiddleware }),
-  )
+
+  app.use('/auth', authRouter({ chainId }))
+
+  app.use('/quote', quoteRouter({ clientAuthMiddleware }))
+  app.use('/kyc', kycRouter({ clientAuthMiddleware }))
+  app.use('/accounts', accountsRouter({ clientAuthMiddleware }))
+  app.use('/transfer', transferRouter({ clientAuthMiddleware }))
 
   app.use(errorToStatusCode)
 

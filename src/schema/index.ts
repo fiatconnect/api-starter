@@ -9,6 +9,7 @@ import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-requ
 import { accountNumberSchema } from './account-number'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
+import { authRequestBodySchema } from './auth-request-body'
 
 const ajv = new Ajv({
   schemas: [
@@ -20,6 +21,7 @@ const ajv = new Ajv({
     accountNumberSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
+    authRequestBodySchema,
   ],
 })
 

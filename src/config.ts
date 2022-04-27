@@ -1,6 +1,5 @@
 import {
   Config,
-  JwtAuthStrategy,
   ClientAuthStrategy,
   AuthenticationConfig,
   Network,
@@ -13,22 +12,16 @@ export const ALFAJORES_FORNO_URL = 'https://alfajores-forno.celo-testnet.org'
 export const MAINNET_FORNO_URL = 'https://forno.celo.org'
 
 export const authConfigOptions: Record<string, AuthenticationConfig> = {
-  test: {
-    web3ProviderUrl: ALFAJORES_FORNO_URL,
-    network: Network.Alfajores,
-    jwtAuthStrategy: JwtAuthStrategy.DecodeOnly,
-    clientAuthStrategy: ClientAuthStrategy.Optional,
-  },
   alfajores: {
     web3ProviderUrl: ALFAJORES_FORNO_URL,
     network: Network.Alfajores,
-    jwtAuthStrategy: JwtAuthStrategy.SignatureAndAddress,
+    chainId: 44787,
     clientAuthStrategy: ClientAuthStrategy.Optional,
   },
   mainnet: {
     web3ProviderUrl: MAINNET_FORNO_URL,
     network: Network.Mainnet,
-    jwtAuthStrategy: JwtAuthStrategy.SignatureAndAddress,
+    chainId: 42220,
     clientAuthStrategy: ClientAuthStrategy.Required,
   },
 }
@@ -53,10 +46,16 @@ export function loadConfig(): Config {
       type: 'number',
       default: DEFAULT_PORT,
     })
+    .option('session-secret', {
+      description: 'The secret for signing the session',
+      type: 'string',
+      demandOption: true,
+    })
     .parseSync()
 
   return {
     authConfig: authConfigOptions[argv['auth-config-option']],
     port: argv.port,
+    sessionSecret: argv.sessionSecret,
   }
 }

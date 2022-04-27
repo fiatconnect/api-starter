@@ -5,17 +5,18 @@ import {
   TransferRequestBody,
   TransferStatusRequestParams,
   NotImplementedError,
-  JwtAuthorizationMiddleware,
 } from '../types'
+import { siweAuthMiddleware } from '../middleware/authenticate'
 
 export function transferRouter({
-  jwtAuthMiddleware,
   clientAuthMiddleware,
 }: {
-  jwtAuthMiddleware: JwtAuthorizationMiddleware
   clientAuthMiddleware: express.RequestHandler[]
 }): express.Router {
   const router = express.Router()
+
+  router.use(siweAuthMiddleware)
+  router.use(clientAuthMiddleware)
 
   const transferRequestBodyValidator = (
     req: express.Request,
@@ -43,8 +44,6 @@ export function transferRouter({
 
   router.post(
     '/in',
-    jwtAuthMiddleware.expirationRequired,
-    clientAuthMiddleware,
     transferRequestBodyValidator,
     asyncRoute(
       async (
@@ -58,8 +57,6 @@ export function transferRouter({
 
   router.post(
     '/out',
-    jwtAuthMiddleware.expirationRequired,
-    clientAuthMiddleware,
     transferRequestBodyValidator,
     asyncRoute(
       async (
@@ -73,8 +70,6 @@ export function transferRouter({
 
   router.get(
     '/:transferId/status',
-    jwtAuthMiddleware.expirationOptional,
-    clientAuthMiddleware,
     transferStatusRequestParamsValidator,
     asyncRoute(
       async (

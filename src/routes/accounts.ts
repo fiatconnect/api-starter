@@ -7,19 +7,17 @@ import {
   FiatAccountSchema,
   AccountNumber,
   NotImplementedError,
-  JwtAuthorizationMiddleware,
 } from '../types'
+import { siweAuthMiddleware } from '../middleware/authenticate'
 
 export function accountsRouter({
-  jwtAuthMiddleware,
   clientAuthMiddleware,
 }: {
-  jwtAuthMiddleware: JwtAuthorizationMiddleware
   clientAuthMiddleware: express.RequestHandler[]
 }): express.Router {
   const router = express.Router()
 
-  router.use(jwtAuthMiddleware.expirationRequired)
+  router.use(siweAuthMiddleware)
   router.use(clientAuthMiddleware)
 
   const addFiatAccountRequestParamsValidator = (

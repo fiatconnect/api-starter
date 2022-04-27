@@ -13,8 +13,9 @@ import {
   FiatType,
   CryptoType,
   FiatAccountType,
+  FiatConnectError,
+  AuthRequestBody,
 } from '@fiatconnect/fiatconnect-types'
-import express from 'express'
 
 export {
   TransferRequestBody,
@@ -30,6 +31,8 @@ export {
   FiatType,
   FiatAccountType,
   CryptoType,
+  FiatConnectError,
+  AuthRequestBody,
 }
 
 /*
@@ -39,11 +42,7 @@ export {
 export interface Config {
   authConfig: AuthenticationConfig
   port: number
-}
-
-export enum JwtAuthStrategy {
-  DecodeOnly = 'DecodeOnly',
-  SignatureAndAddress = 'SignatureAndAddress',
+  sessionSecret: string
 }
 
 export enum ClientAuthStrategy {
@@ -52,25 +51,15 @@ export enum ClientAuthStrategy {
 }
 
 export interface AuthenticationConfig {
-  jwtAuthStrategy: JwtAuthStrategy
   clientAuthStrategy: ClientAuthStrategy
   network: Network
   web3ProviderUrl: string
+  chainId: number
 }
 
 export enum Network {
   Alfajores = 'Alfajores',
   Mainnet = 'Mainnet',
-}
-
-export interface AuthorizationTokens {
-  jwt?: string
-  client?: string
-}
-
-export interface JwtAuthorizationMiddleware {
-  expirationRequired: express.RequestHandler[]
-  expirationOptional: express.RequestHandler[]
 }
 
 /*
@@ -87,6 +76,23 @@ export class ValidationError extends Error {
 
 export class NotImplementedError extends Error {}
 
-export class InvalidAuthParamsError extends Error {}
+export class UnauthorizedError extends Error {
+  fiatConnectError: FiatConnectError
 
-export class UnauthorizedError extends Error {}
+  constructor(
+    fiatConnectError: FiatConnectError = FiatConnectError.Unauthorized,
+    msg?: string,
+  ) {
+    super(msg || fiatConnectError)
+    this.fiatConnectError = fiatConnectError
+  }
+}
+
+export class InvalidSiweParamsError extends Error {
+  fiatConnectError: FiatConnectError
+
+  constructor(fiatConnectError: FiatConnectError, msg?: string) {
+    super(msg || fiatConnectError)
+    this.fiatConnectError = fiatConnectError
+  }
+}
