@@ -7,6 +7,8 @@ import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents
 import { addFiatAccountRequestParamsSchema } from './add-fiat-account-request-params'
 import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-request-params'
 import { accountNumberSchema } from './account-number'
+import { mobileMoneySchema } from './mobile-money'
+import { duniaWalletSchema } from './dunia-wallet'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
 import { authRequestBodySchema } from './auth-request-body'
@@ -19,6 +21,8 @@ const ajv = new Ajv({
     addFiatAccountRequestParamsSchema,
     deleteFiatAccountRequestParamsSchema,
     accountNumberSchema,
+    mobileMoneySchema,
+    duniaWalletSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
     authRequestBodySchema,

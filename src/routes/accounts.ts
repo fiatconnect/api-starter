@@ -6,6 +6,8 @@ import {
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
   AccountNumber,
+  MobileMoney,
+  DuniaWallet,
   NotImplementedError,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
@@ -56,6 +58,12 @@ export function accountsRouter({
         switch (req.params.fiatAccountSchema) {
           case FiatAccountSchema.AccountNumber:
             validateSchema<AccountNumber>(req.body, 'AccountNumberSchema')
+            break
+          case FiatAccountSchema.MobileMoney:
+            validateSchema<MobileMoney>(req.body, 'MobileMoneySchema')
+            break
+          case FiatAccountSchema.DuniaWallet:
+            validateSchema<DuniaWallet>(req.body, 'DuniaWalletSchema')
             break
           default:
             throw new Error(
