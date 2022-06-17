@@ -4,11 +4,8 @@ import { ValidationError } from '../types'
 import { quoteRequestQuerySchema } from './quote-request-query'
 import { kycRequestParamsSchema } from './kyc-request-params'
 import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
-import { addFiatAccountRequestParamsSchema } from './add-fiat-account-request-params'
+import { postFiatAccountRequestBodySchema } from './post-fiat-account-request-body'
 import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-request-params'
-import { accountNumberSchema } from './account-number'
-import { mobileMoneySchema } from './mobile-money'
-import { duniaWalletSchema } from './dunia-wallet'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
 import { authRequestBodySchema } from './auth-request-body'
@@ -18,11 +15,8 @@ const ajv = new Ajv({
     quoteRequestQuerySchema,
     kycRequestParamsSchema,
     personalDataAndDocumentsKycSchema,
-    addFiatAccountRequestParamsSchema,
+    postFiatAccountRequestBodySchema,
     deleteFiatAccountRequestParamsSchema,
-    accountNumberSchema,
-    mobileMoneySchema,
-    duniaWalletSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
     authRequestBodySchema,

@@ -1,7 +1,13 @@
 import { JSONSchemaType } from 'ajv'
-import { DuniaWallet, FiatAccountType } from '../types'
+import {
+  FiatAccountSchema,
+  FiatAccountSchemas,
+  FiatAccountType,
+} from '../types'
 
-export const duniaWalletSchema: JSONSchemaType<DuniaWallet> = {
+export const duniaWalletSchema: JSONSchemaType<
+  FiatAccountSchemas[FiatAccountSchema.DuniaWallet]
+> = {
   $id: 'DuniaWalletSchema',
   type: 'object',
   properties: {
@@ -19,10 +25,5 @@ export const duniaWalletSchema: JSONSchemaType<DuniaWallet> = {
       type: 'string',
     },
   },
-  required: [
-    'institutionName',
-    'accountName',
-    'mobile',
-    'fiatAccountType',
-  ],
+  required: ['institutionName', 'accountName', 'mobile', 'fiatAccountType'],
 }

@@ -1,7 +1,13 @@
 import { JSONSchemaType } from 'ajv'
-import { AccountNumber, FiatAccountType } from '../types'
+import {
+  FiatAccountSchema,
+  FiatAccountSchemas,
+  FiatAccountType,
+} from '../types'
 
-export const accountNumberSchema: JSONSchemaType<AccountNumber> = {
+export const accountNumberSchema: JSONSchemaType<
+  FiatAccountSchemas[FiatAccountSchema.AccountNumber]
+> = {
   $id: 'AccountNumberSchema',
   type: 'object',
   properties: {

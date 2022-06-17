@@ -4,7 +4,7 @@ import { validateSchema } from '../schema/'
 import {
   KycRequestParams,
   KycSchema,
-  PersonalDataAndDocumentsKyc,
+  KycSchemas,
   NotImplementedError,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
@@ -36,19 +36,14 @@ export function kycRouter({
     kycSchemaRequestParamsValidator,
     asyncRoute(
       async (
-        req: express.Request<KycRequestParams>,
+        req: express.Request<KycRequestParams, {}, KycSchemas[KycSchema]>,
         _res: express.Response,
       ) => {
         // Delegate to type-specific handlers after validation provides type guards
-        switch (req.params.kycSchema) {
-          case KycSchema.PersonalDataAndDocuments:
-            validateSchema<PersonalDataAndDocumentsKyc>(
-              req.body,
-              'PersonalDataAndDocumentsKycSchema',
-            )
-          default:
-            throw new Error(`Non-existent KYC schema "${req.params.kycSchema}"`)
-        }
+        validateSchema<KycSchemas[typeof req.params.kycSchema]>(
+          req.body,
+          `${req.params.kycSchema}KycSchema`,
+        )
 
         throw new NotImplementedError('POST /kyc/:kycSchema not implemented')
       },
