@@ -5,10 +5,10 @@ import {
   DeleteFiatAccountRequestParams,
   FiatAccountSchemas,
   NotImplementedError,
+  PostFiatAccountRequestBody,
   SupportedFiatAccountSchemas,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
-import { PostFiatAccountRequestBody } from '@fiatconnect/fiatconnect-types'
 
 export function accountsRouter({
   clientAuthMiddleware,
