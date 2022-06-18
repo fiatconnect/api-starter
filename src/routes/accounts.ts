@@ -3,6 +3,7 @@ import { asyncRoute } from './async-route'
 import { validateSchema } from '../schema/'
 import {
   DeleteFiatAccountRequestParams,
+  FiatAccountSchemas,
   NotImplementedError,
   SupportedFiatAccountSchemas,
 } from '../types'
@@ -58,9 +59,9 @@ export function accountsRouter({
         >,
         _res: express.Response,
       ) => {
-        // Validate body for exact fiat account schema type. The body middleware
+        // Validate data in body for exact fiat account schema type. The body middleware
         // doesn't ensure exact match of fiatAccountSchema and data
-        validateSchema<typeof req.body.fiatAccountSchema>(
+        validateSchema<FiatAccountSchemas[typeof req.body.fiatAccountSchema]>(
           req.body.data,
           `${req.body.fiatAccountSchema}Schema`,
         )

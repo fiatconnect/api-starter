@@ -3,9 +3,9 @@ import { asyncRoute } from './async-route'
 import { validateSchema } from '../schema/'
 import {
   KycRequestParams,
-  KycSchema,
   KycSchemas,
   NotImplementedError,
+  SupportedKycSchemas,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
 
@@ -36,7 +36,11 @@ export function kycRouter({
     kycSchemaRequestParamsValidator,
     asyncRoute(
       async (
-        req: express.Request<KycRequestParams, {}, KycSchemas[KycSchema]>,
+        req: express.Request<
+          KycRequestParams,
+          {},
+          KycSchemas[SupportedKycSchemas]
+        >,
         _res: express.Response,
       ) => {
         // Delegate to type-specific handlers after validation provides type guards

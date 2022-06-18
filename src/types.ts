@@ -103,3 +103,5 @@ export type SupportedFiatAccountSchemas =
   | FiatAccountSchema.AccountNumber
   | FiatAccountSchema.DuniaWallet
   | FiatAccountSchema.MobileMoney
+
+export type SupportedKycSchemas = KycSchema.PersonalDataAndDocuments
