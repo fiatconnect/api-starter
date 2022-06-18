@@ -31,7 +31,7 @@ export function accountsRouter({
   ) => {
     req.body = validateSchema<
       PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
-    >(req.body, 'PostFiatAccountRequestParamsSchema')
+    >(req.body, 'PostFiatAccountRequestBodySchema')
     next()
   }
 
