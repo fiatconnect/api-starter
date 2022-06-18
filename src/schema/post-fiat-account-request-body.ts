@@ -11,7 +11,7 @@ import { mobileMoneySchema } from './mobile-money'
 export const postFiatAccountRequestBodySchema: JSONSchemaType<
   PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
 > = {
-  $id: 'PostFiatAccountRequestParamsSchema',
+  $id: 'PostFiatAccountRequestBodySchema',
   type: 'object',
   properties: {
     fiatAccountSchema: {
