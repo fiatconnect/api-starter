@@ -5,13 +5,11 @@ import {
   QuoteRequestQuery,
   KycRequestParams,
   KycSchema,
-  PersonalDataAndDocumentsKyc,
-  AddFiatAccountRequestParams,
+  KycSchemas,
+  PostFiatAccountRequestBody,
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
-  AccountNumber,
-  DuniaWallet,
-  MobileMoney,
+  FiatAccountSchemas,
   SupportedOperatorEnum,
   FiatType,
   CryptoType,
@@ -26,14 +24,12 @@ export {
   QuoteRequestQuery,
   KycRequestParams,
   KycSchema,
-  PersonalDataAndDocumentsKyc,
-  AddFiatAccountRequestParams,
+  KycSchemas,
+  PostFiatAccountRequestBody,
   DeleteFiatAccountRequestParams,
   FiatAccountSchema,
-  AccountNumber,
-  DuniaWallet,
+  FiatAccountSchemas,
   SupportedOperatorEnum,
-  MobileMoney,
   FiatType,
   FiatAccountType,
   CryptoType,
@@ -102,3 +98,10 @@ export class InvalidSiweParamsError extends Error {
     this.fiatConnectError = fiatConnectError
   }
 }
+
+export type SupportedFiatAccountSchemas =
+  | FiatAccountSchema.AccountNumber
+  | FiatAccountSchema.DuniaWallet
+  | FiatAccountSchema.MobileMoney
+
+export type SupportedKycSchemas = KycSchema.PersonalDataAndDocuments

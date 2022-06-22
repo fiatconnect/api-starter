@@ -2,13 +2,11 @@ import express from 'express'
 import { asyncRoute } from './async-route'
 import { validateSchema } from '../schema/'
 import {
-  AddFiatAccountRequestParams,
   DeleteFiatAccountRequestParams,
-  FiatAccountSchema,
-  AccountNumber,
-  MobileMoney,
-  DuniaWallet,
+  FiatAccountSchemas,
   NotImplementedError,
+  PostFiatAccountRequestBody,
+  SupportedFiatAccountSchemas,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
 
@@ -22,15 +20,18 @@ export function accountsRouter({
   router.use(siweAuthMiddleware)
   router.use(clientAuthMiddleware)
 
-  const addFiatAccountRequestParamsValidator = (
-    req: express.Request,
+  const postFiatAccountRequestBodyValidator = (
+    req: express.Request<
+      {},
+      {},
+      PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
+    >,
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.params = validateSchema<AddFiatAccountRequestParams>(
-      req.params,
-      'AddFiatAccountRequestParamsSchema',
-    )
+    req.body = validateSchema<
+      PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
+    >(req.body, 'PostFiatAccountRequestBodySchema')
     next()
   }
 
@@ -47,29 +48,23 @@ export function accountsRouter({
   }
 
   router.post(
-    '/:fiatAccountSchema',
-    addFiatAccountRequestParamsValidator,
+    '/',
+    postFiatAccountRequestBodyValidator,
     asyncRoute(
       async (
-        req: express.Request<AddFiatAccountRequestParams>,
+        req: express.Request<
+          {},
+          {},
+          PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
+        >,
         _res: express.Response,
       ) => {
-        // Delegate to type-specific handlers after validation provides type guards
-        switch (req.params.fiatAccountSchema) {
-          case FiatAccountSchema.AccountNumber:
-            validateSchema<AccountNumber>(req.body, 'AccountNumberSchema')
-            break
-          case FiatAccountSchema.MobileMoney:
-            validateSchema<MobileMoney>(req.body, 'MobileMoneySchema')
-            break
-          case FiatAccountSchema.DuniaWallet:
-            validateSchema<DuniaWallet>(req.body, 'DuniaWalletSchema')
-            break
-          default:
-            throw new Error(
-              `Non-existent fiat account schema "${req.params.fiatAccountSchema}"`,
-            )
-        }
+        // Validate data in body for exact fiat account schema type. The body middleware
+        // doesn't ensure exact match of fiatAccountSchema and data
+        validateSchema<FiatAccountSchemas[typeof req.body.fiatAccountSchema]>(
+          req.body.data,
+          `${req.body.fiatAccountSchema}Schema`,
+        )
 
         throw new NotImplementedError(
           'POST /accounts/:fiatAccountSchema not implemented',
