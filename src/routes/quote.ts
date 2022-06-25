@@ -30,7 +30,7 @@ export function quoteRouter({
     '/in',
     asyncRoute(
       async (
-        _req: express.Request<{}, {}, {}, QuoteRequestBody>,
+        _req: express.Request<{}, {}, QuoteRequestBody>,
         _res: express.Response,
       ) => {
         throw new NotImplementedError('POST /quote/in not implemented')
@@ -42,7 +42,7 @@ export function quoteRouter({
     '/out',
     asyncRoute(
       async (
-        _req: express.Request<{}, {}, {}, QuoteRequestBody>,
+        _req: express.Request<{}, {}, QuoteRequestBody>,
         _res: express.Response,
       ) => {
         throw new NotImplementedError('POST /quote/out not implemented')
