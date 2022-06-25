@@ -2,7 +2,7 @@
 import {
   TransferRequestBody,
   TransferStatusRequestParams,
-  QuoteRequestQuery,
+  QuoteRequestBody,
   KycRequestParams,
   KycSchema,
   KycSchemas,
@@ -21,7 +21,7 @@ import {
 export {
   TransferRequestBody,
   TransferStatusRequestParams,
-  QuoteRequestQuery,
+  QuoteRequestBody,
   KycRequestParams,
   KycSchema,
   KycSchemas,

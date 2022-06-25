@@ -1,7 +1,7 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
 import { validateSchema } from '../schema/'
-import { QuoteRequestQuery, NotImplementedError } from '../types'
+import { QuoteRequestBody, NotImplementedError } from '../types'
 
 export function quoteRouter({
   clientAuthMiddleware,
@@ -18,34 +18,34 @@ export function quoteRouter({
       _res: express.Response,
       next: express.NextFunction,
     ) => {
-      req.query = validateSchema<QuoteRequestQuery>(
+      req.query = validateSchema<QuoteRequestBody>(
         req.query,
-        'QuoteRequestQuerySchema',
+        'QuoteRequestBodySchema',
       )
       next()
     },
   )
 
-  router.get(
+  router.post(
     '/in',
     asyncRoute(
       async (
-        _req: express.Request<{}, {}, {}, QuoteRequestQuery>,
+        _req: express.Request<{}, {}, {}, QuoteRequestBody>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('GET /quote/in not implemented')
+        throw new NotImplementedError('POST /quote/in not implemented')
       },
     ),
   )
 
-  router.get(
+  router.post(
     '/out',
     asyncRoute(
       async (
-        _req: express.Request<{}, {}, {}, QuoteRequestQuery>,
+        _req: express.Request<{}, {}, {}, QuoteRequestBody>,
         _res: express.Response,
       ) => {
-        throw new NotImplementedError('GET /quote/out not implemented')
+        throw new NotImplementedError('POST /quote/out not implemented')
       },
     ),
   )

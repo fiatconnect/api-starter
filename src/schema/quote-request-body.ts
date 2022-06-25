@@ -1,8 +1,8 @@
 import { JSONSchemaType } from 'ajv'
-import { QuoteRequestQuery, FiatType, CryptoType } from '../types'
+import { QuoteRequestBody, FiatType, CryptoType } from '../types'
 
-export const quoteRequestQuerySchema: JSONSchemaType<QuoteRequestQuery> = {
-  $id: 'QuoteRequestQuerySchema',
+export const quoteRequestBodySchema: JSONSchemaType<QuoteRequestBody> = {
+  $id: 'QuoteRequestBodySchema',
   type: 'object',
   properties: {
     fiatType: {

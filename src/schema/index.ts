@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import { ValidationError } from '../types'
 
-import { quoteRequestQuerySchema } from './quote-request-query'
+import { quoteRequestBodySchema } from './quote-request-body'
 import { kycRequestParamsSchema } from './kyc-request-params'
 import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
 import { postFiatAccountRequestBodySchema } from './post-fiat-account-request-body'
@@ -12,7 +12,7 @@ import { authRequestBodySchema } from './auth-request-body'
 
 const ajv = new Ajv({
   schemas: [
-    quoteRequestQuerySchema,
+    quoteRequestBodySchema,
     kycRequestParamsSchema,
     personalDataAndDocumentsKycSchema,
     postFiatAccountRequestBodySchema,
