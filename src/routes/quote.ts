@@ -18,8 +18,8 @@ export function quoteRouter({
       _res: express.Response,
       next: express.NextFunction,
     ) => {
-      req.query = validateSchema<QuoteRequestBody>(
-        req.query,
+      req.body = validateSchema<QuoteRequestBody>(
+        req.body,
         'QuoteRequestBodySchema',
       )
       next()
