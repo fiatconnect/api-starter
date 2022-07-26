@@ -24,7 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@valora/eslint-config-typescript": "^0.0.1",
     "@valora/prettier-config": "^0.0.1",
-    "ajv": "^8.10.0",
+    "ajv": "^8.11.0",
     "dotenv": "^16.0.1",
     "eslint": "^8.9.0",
     "eslint-plugin-import": "^2.25.4",
