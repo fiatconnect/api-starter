@@ -94,7 +94,6 @@ export function authRouter({ chainId }: { chainId: number }): express.Router {
           const siweMessage = new SiweMessage(req.body.message)
           siweFields = await siweMessage.validate(req.body.signature)
         } catch (err) {
-          console.warn(err)
           const errMessage = (err as Error).message
           if (errMessage.includes(ErrorTypes.INVALID_SIGNATURE)) {
             throw new InvalidSiweParamsError(FiatConnectError.InvalidSignature)
