@@ -34,3 +34,14 @@ jobs:
       - run: yarn build
       - run: yarn lint
       - run: yarn format:check
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          check-latest: true
+      - run: yarn
+      - run: yarn test
