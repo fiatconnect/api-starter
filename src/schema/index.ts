@@ -9,6 +9,7 @@ import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-requ
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
 import { authRequestBodySchema } from './auth-request-body'
+import {AnyZodObject, z, ZodError} from "zod";
 
 const ajv = new Ajv({
   schemas: [
@@ -23,6 +24,14 @@ const ajv = new Ajv({
   ],
 })
 
+/**
+ * Validate AJV schema
+ *
+ * @deprecated - prefer validateZodSchema (more re-usable with fiatconnect-types)
+ *
+ * @param data
+ * @param schema
+ */
 export function validateSchema<T>(data: any, schema: string): T {
   if (ajv.validate(schema, data)) return data
 
@@ -30,4 +39,26 @@ export function validateSchema<T>(data: any, schema: string): T {
     `Error while validating schema: invalid ${schema}`,
     ajv.errors,
   )
+}
+
+/**
+ * Validate zod schema
+ *
+ * @param obj
+ * @param schema
+ */
+export function validateZodSchema<T extends AnyZodObject>(obj: any, schema: T): z.infer<T> {
+  try {
+    return schema.parse(obj)
+  } catch (err) {
+    if (err instanceof ZodError) {
+      throw new ValidationError(
+        `Error validating object with schema ${
+          schema.description
+        }`,
+        err.issues
+      )
+    }
+    throw err
+  }
 }
