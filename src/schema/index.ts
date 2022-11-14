@@ -8,8 +8,8 @@ import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-requ
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
 import { authRequestBodySchema } from './auth-request-body'
-import {z, ZodError} from "zod";
-import {ZodType} from "zod/lib/types";
+import { z, ZodError } from 'zod'
+import { ZodType } from 'zod/lib/types'
 
 const ajv = new Ajv({
   schemas: [
@@ -46,16 +46,17 @@ export function validateSchema<T>(data: any, schema: string): T {
  * @param obj
  * @param schema
  */
-export function validateZodSchema<T extends ZodType>(obj: any, schema: T): z.infer<T> {
+export function validateZodSchema<T extends ZodType>(
+  obj: any,
+  schema: T,
+): z.infer<T> {
   try {
     return schema.parse(obj)
   } catch (err) {
     if (err instanceof ZodError) {
       throw new ValidationError(
-        `Error validating object with schema ${
-          schema.description
-        }`,
-        err.issues
+        `Error validating object with schema ${schema.description}`,
+        err.issues,
       )
     }
     throw err

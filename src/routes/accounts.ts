@@ -1,15 +1,13 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import {validateSchema, validateZodSchema} from '../schema/'
+import { validateSchema, validateZodSchema } from '../schema/'
 import {
   DeleteFiatAccountRequestParams,
   NotImplementedError,
   PostFiatAccountRequestBody,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
-import {
-  postFiatAccountRequestBodySchema
-} from "@fiatconnect/fiatconnect-types"
+import { postFiatAccountRequestBodySchema } from '@fiatconnect/fiatconnect-types'
 
 export function accountsRouter({
   clientAuthMiddleware,
@@ -22,18 +20,11 @@ export function accountsRouter({
   router.use(clientAuthMiddleware)
 
   const postFiatAccountRequestBodyValidator = (
-    req: express.Request<
-      {},
-      {},
-      PostFiatAccountRequestBody
-    >,
+    req: express.Request<{}, {}, PostFiatAccountRequestBody>,
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    validateZodSchema(
-      req.body,
-      postFiatAccountRequestBodySchema
-    )
+    validateZodSchema(req.body, postFiatAccountRequestBodySchema)
     next()
   }
 
@@ -54,11 +45,7 @@ export function accountsRouter({
     postFiatAccountRequestBodyValidator,
     asyncRoute(
       async (
-        _req: express.Request<
-          {},
-          {},
-          PostFiatAccountRequestBody
-        >,
+        _req: express.Request<{}, {}, PostFiatAccountRequestBody>,
         _res: express.Response,
       ) => {
         throw new NotImplementedError(
