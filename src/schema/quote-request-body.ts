@@ -28,6 +28,13 @@ export const quoteRequestBodySchema: JSONSchemaType<QuoteRequestBody> = {
       type: 'string',
       nullable: true,
     },
+    preview: {
+      type: 'boolean',
+      nullable: true,
+    },
+    address: {
+      type: 'string',
+    },
   },
   oneOf: [
     {
