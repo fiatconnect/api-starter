@@ -1,13 +1,10 @@
 import Ajv from 'ajv'
 import { ValidationError } from '../types'
 
-import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
 import { z, ZodError } from 'zod'
 import { ZodType } from 'zod/lib/types'
 
-const ajv = new Ajv({
-  schemas: [personalDataAndDocumentsKycSchema],
-})
+const ajv = new Ajv({})
 
 /**
  * Validate AJV schema
