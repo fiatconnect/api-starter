@@ -1,12 +1,13 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import { validateSchema } from '../schema/'
+import { validateSchema, validateZodSchema } from '../schema/'
 import {
   TransferRequestBody,
   TransferStatusRequestParams,
   NotImplementedError,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
+import { transferRequestBodySchema } from '@fiatconnect/fiatconnect-types'
 
 export function transferRouter({
   clientAuthMiddleware,
@@ -23,10 +24,7 @@ export function transferRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.body = validateSchema<TransferRequestBody>(
-      req.body,
-      'TransferRequestBodySchema',
-    )
+    req.body = validateZodSchema(req.body, transferRequestBodySchema)
     next()
   }
 
