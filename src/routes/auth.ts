@@ -1,6 +1,6 @@
 import express from 'express'
 import { ErrorTypes, SiweMessage } from 'siwe'
-import { validateSchema } from '../schema'
+import { validateZodSchema } from '../schema'
 import {
   AuthRequestBody,
   FiatConnectError,
@@ -8,6 +8,7 @@ import {
   NotImplementedError,
 } from '../types'
 import { asyncRoute } from './async-route'
+import { authRequestBodySchema } from '@fiatconnect/fiatconnect-types'
 
 const MAX_EXPIRATION_TIME_MS = 4 * 60 * 60 * 1000 // 4 hours
 const VERSION = '1'
@@ -73,10 +74,7 @@ export function authRouter({ chainId }: { chainId: number }): express.Router {
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.body = validateSchema<AuthRequestBody>(
-      req.body,
-      'AuthRequestBodySchema',
-    )
+    req.body = validateZodSchema(req.body, authRequestBodySchema)
     next()
   }
 

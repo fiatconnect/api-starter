@@ -6,7 +6,6 @@ import { kycRequestParamsSchema } from './kyc-request-params'
 import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
-import { authRequestBodySchema } from './auth-request-body'
 import { z, ZodError } from 'zod'
 import { ZodType } from 'zod/lib/types'
 
@@ -17,7 +16,6 @@ const ajv = new Ajv({
     personalDataAndDocumentsKycSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
-    authRequestBodySchema,
   ],
 })
 
