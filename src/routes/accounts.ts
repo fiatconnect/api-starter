@@ -1,14 +1,13 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import { validateSchema } from '../schema/'
+import { validateSchema, validateZodSchema } from '../schema/'
 import {
   DeleteFiatAccountRequestParams,
-  FiatAccountSchemas,
   NotImplementedError,
   PostFiatAccountRequestBody,
-  SupportedFiatAccountSchemas,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
+import { postFiatAccountRequestBodySchema } from '@fiatconnect/fiatconnect-types'
 
 export function accountsRouter({
   clientAuthMiddleware,
@@ -21,17 +20,11 @@ export function accountsRouter({
   router.use(clientAuthMiddleware)
 
   const postFiatAccountRequestBodyValidator = (
-    req: express.Request<
-      {},
-      {},
-      PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
-    >,
+    req: express.Request<{}, {}, PostFiatAccountRequestBody>,
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.body = validateSchema<
-      PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
-    >(req.body, 'PostFiatAccountRequestBodySchema')
+    validateZodSchema(req.body, postFiatAccountRequestBodySchema)
     next()
   }
 
@@ -52,20 +45,9 @@ export function accountsRouter({
     postFiatAccountRequestBodyValidator,
     asyncRoute(
       async (
-        req: express.Request<
-          {},
-          {},
-          PostFiatAccountRequestBody<SupportedFiatAccountSchemas>
-        >,
+        _req: express.Request<{}, {}, PostFiatAccountRequestBody>,
         _res: express.Response,
       ) => {
-        // Validate data in body for exact fiat account schema type. The body middleware
-        // doesn't ensure exact match of fiatAccountSchema and data
-        validateSchema<FiatAccountSchemas[typeof req.body.fiatAccountSchema]>(
-          req.body.data,
-          `${req.body.fiatAccountSchema}Schema`,
-        )
-
         throw new NotImplementedError(
           'POST /accounts/:fiatAccountSchema not implemented',
         )
