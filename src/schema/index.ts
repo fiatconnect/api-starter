@@ -4,7 +4,6 @@ import { ValidationError } from '../types'
 import { quoteRequestBodySchema } from './quote-request-body'
 import { kycRequestParamsSchema } from './kyc-request-params'
 import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
-import { deleteFiatAccountRequestParamsSchema } from './delete-fiat-account-request-params'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
 import { authRequestBodySchema } from './auth-request-body'
@@ -16,7 +15,6 @@ const ajv = new Ajv({
     quoteRequestBodySchema,
     kycRequestParamsSchema,
     personalDataAndDocumentsKycSchema,
-    deleteFiatAccountRequestParamsSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
     authRequestBodySchema,
