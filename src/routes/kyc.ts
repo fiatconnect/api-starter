@@ -1,6 +1,6 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import { validateSchema } from '../schema/'
+import { validateSchema, validateZodSchema } from '../schema/'
 import {
   KycRequestParams,
   KycSchemas,
@@ -8,6 +8,7 @@ import {
   SupportedKycSchemas,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
+import { kycRequestParamsSchema } from '@fiatconnect/fiatconnect-types'
 
 export function kycRouter({
   clientAuthMiddleware,
@@ -24,10 +25,7 @@ export function kycRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.params = validateSchema<KycRequestParams>(
-      req.params,
-      'KycRequestParamsSchema',
-    )
+    req.params = validateZodSchema(req.params, kycRequestParamsSchema)
     next()
   }
 

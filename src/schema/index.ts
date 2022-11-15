@@ -2,7 +2,6 @@ import Ajv from 'ajv'
 import { ValidationError } from '../types'
 
 import { quoteRequestBodySchema } from './quote-request-body'
-import { kycRequestParamsSchema } from './kyc-request-params'
 import { personalDataAndDocumentsKycSchema } from './personal-data-and-documents-kyc'
 import { transferRequestBodySchema } from './transfer-request-body'
 import { transferStatusRequestParamsSchema } from './transfer-status-request-params'
@@ -12,7 +11,6 @@ import { ZodType } from 'zod/lib/types'
 const ajv = new Ajv({
   schemas: [
     quoteRequestBodySchema,
-    kycRequestParamsSchema,
     personalDataAndDocumentsKycSchema,
     transferRequestBodySchema,
     transferStatusRequestParamsSchema,
