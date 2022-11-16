@@ -1,6 +1,6 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import { validateSchema } from '../schema/'
+import { validateZodSchema } from '../schema/'
 import {
   KycRequestParams,
   KycSchemas,
@@ -8,6 +8,17 @@ import {
   SupportedKycSchemas,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
+import {
+  kycRequestParamsSchema,
+  KycSchema,
+  personalDataAndDocumentsKycSchema,
+} from '@fiatconnect/fiatconnect-types'
+import { AnyZodObject } from 'zod'
+
+const kycSchemaToZodSchema: { [kycSchema in KycSchema]: AnyZodObject } = {
+  // if a KYC schema is missing, that should be evident at compile-time, as long as fiatconnect-types is up to date
+  [KycSchema.PersonalDataAndDocuments]: personalDataAndDocumentsKycSchema,
+}
 
 export function kycRouter({
   clientAuthMiddleware,
@@ -24,10 +35,7 @@ export function kycRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.params = validateSchema<KycRequestParams>(
-      req.params,
-      'KycRequestParamsSchema',
-    )
+    req.params = validateZodSchema(req.params, kycRequestParamsSchema)
     next()
   }
 
@@ -44,10 +52,7 @@ export function kycRouter({
         _res: express.Response,
       ) => {
         // Delegate to type-specific handlers after validation provides type guards
-        validateSchema<KycSchemas[typeof req.params.kycSchema]>(
-          req.body,
-          `${req.params.kycSchema}KycSchema`,
-        )
+        validateZodSchema(req.body, kycSchemaToZodSchema[req.params.kycSchema])
 
         throw new NotImplementedError('POST /kyc/:kycSchema not implemented')
       },

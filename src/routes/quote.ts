@@ -1,7 +1,8 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import { validateSchema } from '../schema/'
+import { validateZodSchema } from '../schema/'
 import { QuoteRequestBody, NotImplementedError } from '../types'
+import { quoteRequestBodySchema } from '@fiatconnect/fiatconnect-types'
 
 export function quoteRouter({
   clientAuthMiddleware,
@@ -18,10 +19,7 @@ export function quoteRouter({
       _res: express.Response,
       next: express.NextFunction,
     ) => {
-      req.body = validateSchema<QuoteRequestBody>(
-        req.body,
-        'QuoteRequestBodySchema',
-      )
+      req.body = validateZodSchema(req.body, quoteRequestBodySchema)
       next()
     },
   )

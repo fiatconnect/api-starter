@@ -1,13 +1,16 @@
 import express from 'express'
 import { asyncRoute } from './async-route'
-import { validateSchema, validateZodSchema } from '../schema/'
+import { validateZodSchema } from '../schema/'
 import {
   DeleteFiatAccountRequestParams,
   NotImplementedError,
   PostFiatAccountRequestBody,
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
-import { postFiatAccountRequestBodySchema } from '@fiatconnect/fiatconnect-types'
+import {
+  deleteFiatAccountRequestParamsSchema,
+  postFiatAccountRequestBodySchema,
+} from '@fiatconnect/fiatconnect-types'
 
 export function accountsRouter({
   clientAuthMiddleware,
@@ -33,9 +36,9 @@ export function accountsRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.params = validateSchema<DeleteFiatAccountRequestParams>(
+    req.params = validateZodSchema(
       req.params,
-      'DeleteFiatAccountRequestParamsSchema',
+      deleteFiatAccountRequestParamsSchema,
     )
     next()
   }
