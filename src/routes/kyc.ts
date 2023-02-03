@@ -12,12 +12,15 @@ import {
   kycRequestParamsSchema,
   KycSchema,
   personalDataAndDocumentsKycSchema,
+  personalDataAndDocumentsDetailedKycSchema,
 } from '@fiatconnect/fiatconnect-types'
-import { AnyZodObject } from 'zod'
+import { ZodTypeAny } from 'zod'
 
-const kycSchemaToZodSchema: { [kycSchema in KycSchema]: AnyZodObject } = {
+const kycSchemaToZodSchema: { [kycSchema in KycSchema]: ZodTypeAny } = {
   // if a KYC schema is missing, that should be evident at compile-time, as long as fiatconnect-types is up to date
   [KycSchema.PersonalDataAndDocuments]: personalDataAndDocumentsKycSchema,
+  [KycSchema.PersonalDataAndDocumentsDetailed]:
+    personalDataAndDocumentsDetailedKycSchema,
 }
 
 export function kycRouter({
