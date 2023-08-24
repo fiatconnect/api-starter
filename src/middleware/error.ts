@@ -13,7 +13,7 @@ export const errorToStatusCode = (
 ) => {
   if (error instanceof ValidationError) {
     res.status(400).json({
-      error: error.message,
+      error: error.fiatConnectError,
       data: error.validationError,
     })
   } else if (

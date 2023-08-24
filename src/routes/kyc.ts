@@ -2,6 +2,7 @@ import express from 'express'
 import { asyncRoute } from './async-route'
 import { validateZodSchema } from '../schema/'
 import {
+  FiatConnectError,
   KycRequestParams,
   KycSchemas,
   NotImplementedError,
@@ -38,7 +39,11 @@ export function kycRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.params = validateZodSchema(req.params, kycRequestParamsSchema)
+    req.params = validateZodSchema(
+      req.params,
+      kycRequestParamsSchema,
+      FiatConnectError.InvalidSchema,
+    )
     next()
   }
 

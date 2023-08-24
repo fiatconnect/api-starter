@@ -8,6 +8,7 @@ import {
 } from '../types'
 import { siweAuthMiddleware } from '../middleware/authenticate'
 import {
+  FiatConnectError,
   deleteFiatAccountRequestParamsSchema,
   postFiatAccountRequestBodySchema,
 } from '@fiatconnect/fiatconnect-types'
@@ -27,7 +28,11 @@ export function accountsRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    validateZodSchema(req.body, postFiatAccountRequestBodySchema)
+    validateZodSchema(
+      req.body,
+      postFiatAccountRequestBodySchema,
+      FiatConnectError.InvalidSchema,
+    )
     next()
   }
 

@@ -68,9 +68,15 @@ export enum Network {
 
 export class ValidationError extends Error {
   validationError: any
-  constructor(msg: string, validationError: any) {
+  fiatConnectError: FiatConnectError
+  constructor(
+    msg: string,
+    validationError: any,
+    fiatConnectError: FiatConnectError,
+  ) {
     super(msg)
     this.validationError = validationError
+    this.fiatConnectError = fiatConnectError
   }
 }
 
