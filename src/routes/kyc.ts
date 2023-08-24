@@ -39,11 +39,7 @@ export function kycRouter({
     _res: express.Response,
     next: express.NextFunction,
   ) => {
-    req.params = validateZodSchema(
-      req.params,
-      kycRequestParamsSchema,
-      FiatConnectError.InvalidSchema,
-    )
+    req.params = validateZodSchema(req.params, kycRequestParamsSchema)
     next()
   }
 
@@ -60,7 +56,11 @@ export function kycRouter({
         _res: express.Response,
       ) => {
         // Delegate to type-specific handlers after validation provides type guards
-        validateZodSchema(req.body, kycSchemaToZodSchema[req.params.kycSchema])
+        validateZodSchema(
+          req.body,
+          kycSchemaToZodSchema[req.params.kycSchema],
+          FiatConnectError.InvalidParameters,
+        )
 
         throw new NotImplementedError('POST /kyc/:kycSchema not implemented')
       },
