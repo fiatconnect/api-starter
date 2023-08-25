@@ -1,4 +1,4 @@
-import { ValidationError } from '../types'
+import { FiatConnectError, ValidationError } from '../types'
 
 import { z, ZodError } from 'zod'
 import { ZodType } from 'zod/lib/types'
@@ -12,6 +12,7 @@ import { ZodType } from 'zod/lib/types'
 export function validateZodSchema<T extends ZodType>(
   obj: any,
   schema: T,
+  fiatConnectError: FiatConnectError = FiatConnectError.InvalidParameters,
 ): z.infer<T> {
   try {
     return schema.parse(obj)
@@ -20,6 +21,7 @@ export function validateZodSchema<T extends ZodType>(
       throw new ValidationError(
         `Error validating object with schema ${schema.description}`,
         err.issues,
+        fiatConnectError,
       )
     }
     throw err

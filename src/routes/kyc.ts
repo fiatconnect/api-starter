@@ -2,6 +2,7 @@ import express from 'express'
 import { asyncRoute } from './async-route'
 import { validateZodSchema } from '../schema/'
 import {
+  FiatConnectError,
   KycRequestParams,
   KycSchemas,
   NotImplementedError,
@@ -55,7 +56,11 @@ export function kycRouter({
         _res: express.Response,
       ) => {
         // Delegate to type-specific handlers after validation provides type guards
-        validateZodSchema(req.body, kycSchemaToZodSchema[req.params.kycSchema])
+        validateZodSchema(
+          req.body,
+          kycSchemaToZodSchema[req.params.kycSchema],
+          FiatConnectError.InvalidParameters,
+        )
 
         throw new NotImplementedError('POST /kyc/:kycSchema not implemented')
       },
