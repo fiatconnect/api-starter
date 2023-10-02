@@ -41,7 +41,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/express-session": "^1.17.7",
+    "@types/express-session": "^1.17.8",
     "@types/jest": "^27.5.2",
     "@types/node-fetch": "2",
     "@types/supertest": "^2.0.12",
