@@ -19,7 +19,7 @@
   "dependencies": {
     "@celo/utils": "^1.5.2",
     "@fiatconnect/fiatconnect-types": "^13.2.2",
-    "@types/express": "^4.17.19",
+    "@types/express": "^4.17.20",
     "@types/node": "^17.0.45",
     "@types/yargs": "^17.0.28",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
