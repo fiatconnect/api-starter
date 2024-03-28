@@ -35,7 +35,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "prettier": "^3.2.5",
-    "siwe": "^1.1.6",
+    "siwe": "^2.1.4",
     "typescript": "^5.1.6",
     "yargs": "^17.7.2",
     "zod": "^3.22.4"
