@@ -4,7 +4,7 @@
   "description": "An example implementation of a FiatConnect-compliant API",
   "main": "index.js",
   "engines": {
-    "node": "^16"
+    "node": ">=16"
   },
   "scripts": {
     "build": "tsc",
