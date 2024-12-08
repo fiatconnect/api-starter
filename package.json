@@ -32,7 +32,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
     "ethers": "^5.7.2",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "express-session": "^1.18.1",
     "prettier": "^3.4.2",
     "siwe": "^1.1.6",
